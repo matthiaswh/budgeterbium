@@ -1,3 +1,3 @@
-export const doSomething = ({ commit }, data) => {
-  commit('DO_SOMETHING', { data: data });
+export const addAccount = ({ commit }, data) => {
+  commit('ADD_ACCOUNT', { account: data });
 };

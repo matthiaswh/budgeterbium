@@ -2,20 +2,22 @@
   <div id="accounts-list-view">
     I'm a list of accounts!
 
-    <router-link :to="{ name: 'createEditAccount' }">Add an account</router-link>
+    <router-link :to="{ name: 'createAccount' }">Add an account</router-link>
 
     <ul>
       <li v-for="account, key in accounts">
         {{ account.name }}
         <span class="tag is-small is-info">{{ categories[account.category] }}</span>
         ${{ account.balance }}
+        <a @click="confirmDeleteAccount(account)">Delete</a>
+        <router-link :to="{ name: 'editAccount', params: { accountId: account.id } }">Edit</router-link>
       </li>
     </ul>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 import { CATEGORIES } from '../../../consts';
 
 export default {
@@ -25,6 +27,18 @@ export default {
     return {
       categories: CATEGORIES
     };
+  },
+
+  methods: {
+    ...mapActions([
+      'deleteAccount'
+    ]),
+
+    confirmDeleteAccount (account) {
+      if (confirm(`Are you sure you want to delete ${account.name}?`)) {
+        this.deleteAccount(account);
+      }
+    }
   },
 
   computed: {

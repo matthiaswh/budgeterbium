@@ -29,9 +29,14 @@ export default {
     };
   },
 
+  mounted () {
+    this.loadAccounts();
+  },
+
   methods: {
     ...mapActions([
-      'deleteAccount'
+      'deleteAccount',
+      'loadAccounts'
     ]),
 
     confirmDeleteAccount (account) {

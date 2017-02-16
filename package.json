@@ -15,6 +15,7 @@
   "dependencies": {
     "bulma": "^0.3.1",
     "localforage": "^1.4.3",
+    "localforage-startswith": "^1.2.0",
     "vue": "^2.1.10",
     "vue-router": "^2.2.0",
     "vuex": "^2.1.2"

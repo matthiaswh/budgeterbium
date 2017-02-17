@@ -1,1 +1,1 @@
-export { default as BudgetsListView } from './BudgetsListView';
+export { default as BudgetsListView } from './BudgetsList';

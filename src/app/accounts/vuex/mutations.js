@@ -1,7 +1,7 @@
 import Vue from 'vue';
 
 export default {
-  ADD_ACCOUNT (state, payload) {
+  CREATE_ACCOUNT (state, payload) {
     state.accounts[payload.account.id] = payload.account;
   },
 

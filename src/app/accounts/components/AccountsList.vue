@@ -10,7 +10,7 @@
         <span class="tag is-small is-info">{{ categories[account.category] }}</span>
         ${{ account.balance }}
         <a @click="confirmDeleteAccount(account)">Delete</a>
-        <router-link :to="{ name: 'editAccount', params: { accountId: account.id } }">Edit</router-link>
+        <router-link :to="{ name: 'updateAccount', params: { accountId: account.id } }">Edit</router-link>
       </li>
     </ul>
   </div>

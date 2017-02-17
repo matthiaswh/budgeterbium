@@ -1,1 +1,1 @@
-export { default as TransactionsListView } from './TransactionsListView';
+export { default as TransactionsListView } from './TransactionsList';

@@ -24,9 +24,7 @@ export const loadAccounts = (state) => {
   // loads accounts only if they are not already loaded
   if (!state.accounts || Object.keys(state.accounts).length === 0) {
     return fetchAccounts().then((res) => {
-      let accounts = {};
-      Object.keys(res).forEach((key) => { accounts[res[key].id] = res[key]; });
-      state.commit('LOAD_ACCOUNTS', accounts);
+      state.commit('LOAD_ACCOUNTS', res);
     });
   }
 };

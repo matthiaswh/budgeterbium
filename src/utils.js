@@ -8,3 +8,13 @@ export const guid = function () {
   return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
     s4() + '-' + s4() + s4() + s4();
 };
+
+export const processAPIData = function (data) {
+  /*
+  Converts the data formatted for IndexedDB / API into the format
+  our application uses.
+   */
+  let res = {};
+  Object.keys(data).forEach((key) => { res[data[key].id] = data[key]; });
+  return res;
+};

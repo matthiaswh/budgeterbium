@@ -1,10 +1,11 @@
 import localforage from 'localforage';
+import { processAPIData } from '../../utils';
 
 const ACCOUNT_NAMESPACE = 'ACCOUNT-';
 
 export const fetchAccounts = () => {
   return localforage.startsWith(ACCOUNT_NAMESPACE).then((res) => {
-    return res;
+    return processAPIData(res);
   });
 };
 

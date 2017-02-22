@@ -2,7 +2,7 @@
   <div id="accounts-create-edit-view">
     You can create and edit accounts with me, yippee!
 
-    <router-link :to="{ name: 'accountsListView' }">View all accounts</router-link>
+    <router-link :to="{ name: 'accountsList' }">View all accounts</router-link>
 
     <form class="form" @submit.prevent="processSave">
       <label for="name" class="label">Name</label>
@@ -27,7 +27,7 @@
           <button class="button is-primary">Submit</button>
         </p>
         <p class="control">
-          <router-link :to="{ name: 'accountsListView' }"><button class="button is-link">Cancel</button></router-link>
+          <router-link :to="{ name: 'accountsList' }"><button class="button is-link">Cancel</button></router-link>
         </p>
       </div>
     </form>

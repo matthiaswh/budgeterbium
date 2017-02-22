@@ -3,8 +3,8 @@ import * as components from './components';
 export default [
   {
     path: '/',
-    component: components.AccountsListView,
-    name: 'accountsListView'
+    component: components.AccountsList,
+    name: 'accountsList'
   },
   {
     path: '/accounts/create',

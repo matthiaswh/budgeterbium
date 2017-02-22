@@ -3,6 +3,7 @@
     I'm a list of accounts!
 
     <router-link :to="{ name: 'createAccount' }">Add an account</router-link>
+    <router-link :to="{ name: 'budgetsList' }">View budgets</router-link>
 
     <ul>
       <li v-for="account, key in accounts">

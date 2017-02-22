@@ -2,6 +2,8 @@
   <div id="budget-create-edit-view">
     You can create and edit budgets with me, woot!
 
+    <router-link :to="{ name: 'budgetsList' }">View all budgets</router-link>
+
     <form class="form" @submit.prevent="processSave">
       <label for="month" class="label">Month</label>
       <p class="control">
@@ -20,6 +22,9 @@
       <div class="control is-grouped">
         <p class="control">
           <button class="button is-primary">Submit</button>
+        </p>
+        <p class="control">
+          <router-link :to="{ name: 'budgetsList' }"><button class="button is-link">Cancel</button></router-link>
         </p>
       </div>
     </form>

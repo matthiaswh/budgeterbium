@@ -16,8 +16,10 @@
     "bulma": "^0.3.1",
     "localforage": "^1.4.3",
     "localforage-startswith": "^1.2.0",
+    "moment": "^2.17.1",
     "vue": "^2.1.10",
     "vue-router": "^2.2.0",
+    "vuejs-datepicker": "^0.6.2",
     "vuex": "^2.1.2"
   },
   "devDependencies": {

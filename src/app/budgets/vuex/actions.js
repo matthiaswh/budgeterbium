@@ -1,7 +1,23 @@
+import moment from 'moment';
 import { guid } from '../../../utils';
 import { saveBudget, fetchBudgets } from '../api';
 
-export const createBudget = ({ commit }, data) => {
+const verifyUniqueMonth = (budgets, budget) => {
+  // accepts a list of budgets, and the budget being updated
+  // returns true if there is no date collision
+  // returns false if a budget already exists in budgets with the same month as budget
+  let month = moment(budget.month);
+  return !Object.values(budgets).find((o) => {
+    if (o.id === budget.id) return false; // it's the budget we're examining, let's not check if the months are the same
+    return month.isSame(o.month, 'month');
+  });
+};
+
+export const createBudget = ({ commit, state }, data) => {
+  if (!verifyUniqueMonth(state.budgets, data)) {
+    return Promise.reject(new Error('A budget already exists for this month.'));
+  }
+
   let id = guid();
   let budget = Object.assign({ id: id }, data);
 
@@ -11,15 +27,19 @@ export const createBudget = ({ commit }, data) => {
   });
 };
 
-export const updateBudget = ({ commit }, data) => {
+export const updateBudget = ({ commit, state }, data) => {
+  if (!verifyUniqueMonth(state.budgets, data)) {
+    return Promise.reject(new Error('A budget already exists for this month.'));
+  }
+
   commit('UPDATE_BUDGET', { budget: data });
   saveBudget(data);
 };
 
-export const loadBudgets = (state) => {
+export const loadBudgets = ({ state, commit }) => {
   if (!state.budgets || Object.keys(state.budgets).length === 0) {
     return fetchBudgets().then((res) => {
-      state.commit('LOAD_BUDGETS', res);
+      commit('LOAD_BUDGETS', res);
     });
   }
 };

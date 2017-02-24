@@ -74,12 +74,16 @@ export default {
     saveNewBudget () {
       this.createBudget(this.selectedBudget).then(() => {
         this.resetAndGo();
+      }).catch((err) => {
+        alert(err);
       });
     },
 
     saveBudget () {
       this.updateBudget(this.selectedBudget).then(() => {
         this.resetAndGo();
+      }).catch((err) => {
+        alert(err);
       });
     },
 

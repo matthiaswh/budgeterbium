@@ -6,7 +6,7 @@
     <router-link :to="{ name: 'accountsList' }">View accounts</router-link>
 
     <ul>
-      <li v-for="budget, key in budgets">
+      <li v-for="budget in sortedBudgets">
         {{ budget.month | moment }}
         ${{ budget.budgeted }}
         ${{ budget.spent }}
@@ -42,7 +42,17 @@ export default {
   computed: {
     ...mapState({
       'budgets': state => state.budgets.budgets
-    })
+    }),
+
+    sortedBudgets () {
+      let sortedKeys = Object.keys(this.budgets).sort((a, b) => {
+        return this.budgets[b].month - this.budgets[a].month;
+      });
+
+      return sortedKeys.map((key) => {
+        return this.budgets[key];
+      });
+    }
   }
 };
 </script>

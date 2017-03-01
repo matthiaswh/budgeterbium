@@ -3,7 +3,8 @@ import mutations from './mutations';
 import getters from './getters';
 
 const state = {
-  budgets: {}
+  budgets: {},
+  categories: {}
 };
 
 export default {

@@ -12,8 +12,6 @@
       </div>
     </nav>
 
-    <router-link :to="{ name: 'accountsList' }">View accounts</router-link>
-
     <table class="table is-bordered">
       <thead>
         <tr>

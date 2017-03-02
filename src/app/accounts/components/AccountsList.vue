@@ -12,9 +12,6 @@
       </div>
     </nav>
 
-
-    <router-link :to="{ name: 'budgetsList' }">View budgets</router-link>
-
     <table class="table is-bordered">
       <thead>
         <tr>

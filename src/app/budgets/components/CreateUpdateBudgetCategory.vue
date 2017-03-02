@@ -1,31 +1,37 @@
 <template>
-  <div id="budget-category-create-edit-view">
-    <form class="form" @submit.prevent="processSave">
-      <div class="control is-horizontal">
-        <div class="control is-grouped">
-          <div class="control is-expanded">
-            <multiselect
-              :value="budgetCategory.category"
-              @input="updateCategorySelection"
-              :taggable="true"
-              @tag="handleCreateCategory"
-              :options="getCategorySelectList"
-              placeholder="Select or create a category"
-              label="name"
-              track-by="id"
-            ></multiselect>
-          </div>
-          <div class="control is-expanded">
-            $<input type="number" class="input" v-model="budgetCategory.budgeted" />
-          </div>
-          <div class="control is-expanded">
-            {{ budgetCategory.spent }}
-          </div>
-          <button @click.prevent="processSave">Add</button>
-        </div>
-      </div>
-    </form>
-  </div>
+  <tr id="budget-category-create-edit-view">
+
+      <td>
+        <multiselect
+          :value="budgetCategory.category"
+          @input="updateCategorySelection"
+          :taggable="true"
+          @tag="handleCreateCategory"
+          :options="getCategorySelectList"
+          placeholder="Select or create a category"
+          label="name"
+          track-by="id"
+        ></multiselect>
+      </td>
+
+      <td>
+        <p class="control has-icon">
+          <input type="number" step="0.01" class="input" v-model="budgetCategory.budgeted" />
+          <span class="icon">
+            <i class="fa fa-usd" aria-hidden="true"></i>
+          </span>
+        </p>
+      </td>
+
+      <td>
+        <span class="subtitle is-5">${{ budgetCategory.spent }}</span>
+      </td>
+
+      <td>
+        <a class="button is-primary" @click.prevent="processSave">Add</a>
+      </td>
+
+  </tr>
 </template>
 
 <script>

@@ -60,25 +60,19 @@ import { CATEGORIES } from '../../../consts';
 
 export default {
   name: 'accounts-create-edit-view',
+  props: ['accountId'],
 
   data: () => {
     return {
       categories: CATEGORIES,
-      selectedAccount: {},
-      editing: false
+      editing: false,
+      selectedAccount: {}
     };
   },
 
   mounted () {
-    if ('accountId' in this.$route.params) {
-      this.loadAccounts().then(() => {
-        let selectedAccount = this.getAccountById(this.$route.params.accountId);
-        if (selectedAccount) {
-          this.editing = true;
-          this.selectedAccount = Object.assign({}, selectedAccount);
-        }
-      // TODO: the object does not exist, how do we handle this scenario?
-      });
+    if (this.accountId) {
+      this.loadAccount();
     }
   },
 
@@ -108,6 +102,18 @@ export default {
 
     processSave () {
       this.editing ? this.saveAccount() : this.saveNewAccount();
+    },
+
+    loadAccount () {
+      let vm = this;
+      this.loadAccounts().then(() => {
+        let selectedAccount = vm.getAccountById(vm.accountId);
+        if (selectedAccount) {
+          vm.editing = true;
+          vm.selectedAccount = Object.assign({}, selectedAccount);
+        }
+      // TODO: the object does not exist, how do we handle this scenario?
+      });
     }
   },
 
@@ -115,6 +121,16 @@ export default {
     ...mapGetters([
       'getAccountById'
     ])
+  },
+
+  watch: {
+    accountId (newId) {
+      if (newId) {
+        this.loadAccount();
+      }
+      this.editing = false;
+      this.selectedAccount = {};
+    }
   }
 };
 </script>

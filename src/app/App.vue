@@ -54,7 +54,7 @@ export default {
     background-color: #02212B;
 
     .brand {
-      font-size: 36px;
+      font-size: 24px;
       color: #ffffff;
       margin: 40px 0 20px 20px;
       vertical-align: top;

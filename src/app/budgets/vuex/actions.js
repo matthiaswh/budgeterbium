@@ -96,3 +96,21 @@ export const createBudgetCategory = ({ commit, dispatch, getters }, data) => {
     value: budgetCategory.budgeted
   });
 };
+
+export const updateBudgetCategory = ({ commit, dispatch, getters }, data) => {
+  let newBudget = data.budgetCategory.budgeted;
+  let oldBudget = getters.getBudgetCategoryById(data.budget.id, data.budgetCategory.id).budgeted;
+
+  if (newBudget !== oldBudget) {
+    dispatch('updateBudgetBalance', {
+      budget: data.budget,
+      param: 'budgeted',
+      value: newBudget - oldBudget
+    });
+  }
+
+  commit('UPDATE_BUDGET_CATEGORY', data);
+
+  // save using the budget in our store
+  saveBudget(getters.getBudgetById(data.budget.id));
+};

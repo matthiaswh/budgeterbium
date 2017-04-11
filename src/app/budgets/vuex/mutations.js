@@ -39,5 +39,9 @@ export default {
 
   CREATE_BUDGET_CATEGORY (state, payload) {
     Vue.set(state.budgets[payload.budget.id].budgetCategories, payload.budgetCategory.id, payload.budgetCategory);
+  },
+
+  UPDATE_BUDGET_CATEGORY (state, payload) {
+    state.budgets[payload.budget.id].budgetCategories[payload.budgetCategory.id] = payload.budgetCategory;
   }
 };

@@ -27,8 +27,12 @@
         <span class="subtitle is-5">${{ budgetCategory.spent }}</span>
       </td>
 
+      <td></td>
+
       <td>
-        <a class="button is-primary" @click.prevent="processSave">Add</a>
+        <a class="button is-primary" @click.prevent="processSave">
+          {{ editing ? 'Save' : 'Add' }}
+        </a>
       </td>
 
   </tr>
@@ -46,14 +50,27 @@ export default {
     Multiselect
   },
 
+  props: [
+    'value'
+  ],
+
   data: () => {
     return {
-      budgetCategory: {}
+      budgetCategory: {},
+      editing: false
     };
   },
 
   mounted () {
     this.loadCategories();
+    if (this.value) {
+      this.budgetCategory = Object.assign({}, this.value);
+
+      // we need the selected category name and ID, but the budgetCategory object only holds the ID by default
+      this.budgetCategory.category = this.getCategoryById(this.budgetCategory.category);
+
+      this.editing = true;
+    }
   },
 
   methods: {
@@ -63,8 +80,14 @@ export default {
     ]),
 
     processSave () {
-      this.$emit('add-budget-category', this.budgetCategory);
-      this.budgetCategory = {};
+      // we are passing the saves up to the budget because this budget
+      // category view isn't aware of its parent budget object
+      if (this.editing) {
+        this.$emit('update-budget-category', this.budgetCategory);
+      } else {
+        this.$emit('add-budget-category', this.budgetCategory);
+        this.budgetCategory = {};
+      }
     },
 
     handleCreateCategory (category) {
@@ -84,7 +107,8 @@ export default {
 
   computed: {
     ...mapGetters([
-      'getCategorySelectList'
+      'getCategorySelectList',
+      'getCategoryById'
     ])
   }
 };

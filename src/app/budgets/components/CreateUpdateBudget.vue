@@ -83,7 +83,7 @@
                 @change="processDuplicateBudget($event.target.value)"
               >
                 <option
-                  v-for="value, key in budgets"
+                  v-for="value, key in sortedBudgets"
                   :value="key"
                 >
                   {{ value.month | moment }}
@@ -111,6 +111,7 @@ import Datepicker from 'vuejs-datepicker';
 import CreateUpdateBudgetCategory from './CreateUpdateBudgetCategory';
 import BudgetCategory from './BudgetCategory';
 import { moment } from '../../../filters';
+import { sortObjects } from '../../../utils';
 
 export default {
   name: 'budget-create-edit-view',
@@ -144,7 +145,6 @@ export default {
         }
       });
     }
-    this.lastBudget = this.getBudgetById('d0862d23-e433-bb30-6088-09f0e2f9f221');
   },
 
   methods: {
@@ -213,7 +213,7 @@ export default {
     },
 
     processDuplicateBudget (budgetId) {
-      if (confirm('Are you sure you want to duplicate this budget? Doing this will overwrite all existing data for this month (transaction data will NOT be erased).')) {
+      if (confirm('Are you sure you want to duplicate that budget? Doing this will overwrite all existing data for this month (transaction data will NOT be erased).')) {
         this.duplicateBudget({
           budget: this.selectedBudget,
           baseBudget: this.getBudgetById(budgetId)
@@ -232,7 +232,11 @@ export default {
 
     ...mapState({
       'budgets': state => state.budgets.budgets
-    })
+    }),
+
+    sortedBudgets () {
+      return sortObjects(this.budgets, 'month', true);
+    }
   }
 };
 </script>

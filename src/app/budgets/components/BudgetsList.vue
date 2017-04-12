@@ -49,6 +49,7 @@
 import { mapState, mapActions } from 'vuex';
 
 import { moment } from '../../../filters';
+import { sortObjects } from '../../../utils';
 
 export default {
   name: 'budgets-list',
@@ -73,13 +74,7 @@ export default {
     }),
 
     sortedBudgets () {
-      let sortedKeys = Object.keys(this.budgets).sort((a, b) => {
-        return this.budgets[b].month - this.budgets[a].month;
-      });
-
-      return sortedKeys.map((key) => {
-        return this.budgets[key];
-      });
+      return sortObjects(this.budgets, 'month', true);
     }
   }
 };

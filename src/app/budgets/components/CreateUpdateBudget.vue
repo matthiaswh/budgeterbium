@@ -76,7 +76,20 @@
         </tbody>
         <tfoot>
           <tr>
-            <td></td>
+            <td>
+              Copy entire budget from:
+              <select
+                class="select"
+                @change="processDuplicateBudget($event.target.value)"
+              >
+                <option
+                  v-for="value, key in budgets"
+                  :value="key"
+                >
+                  {{ value.month | moment }}
+                </option>
+              </select>
+            </td>
             <td>${{ selectedBudget.budgeted }}</td>
             <td>${{ selectedBudget.spent }}</td>
             <td>${{ selectedBudget.budgeted - selectedBudget.spent }}</td>
@@ -92,11 +105,12 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters, mapState } from 'vuex';
 import Datepicker from 'vuejs-datepicker';
 
 import CreateUpdateBudgetCategory from './CreateUpdateBudgetCategory';
 import BudgetCategory from './BudgetCategory';
+import { moment } from '../../../filters';
 
 export default {
   name: 'budget-create-edit-view',
@@ -111,8 +125,13 @@ export default {
     return {
       selectedBudget: {},
       editing: false,
-      activeBudgetCategory: null
+      activeBudgetCategory: null,
+      lastBudget: null
     };
+  },
+
+  filters: {
+    moment
   },
 
   mounted () {
@@ -125,6 +144,7 @@ export default {
         }
       });
     }
+    this.lastBudget = this.getBudgetById('d0862d23-e433-bb30-6088-09f0e2f9f221');
   },
 
   methods: {
@@ -133,7 +153,8 @@ export default {
       'updateBudget',
       'loadBudgets',
       'createBudgetCategory',
-      'updateBudgetCategory'
+      'updateBudgetCategory',
+      'duplicateBudget'
     ]),
 
     resetAndGo () {
@@ -189,6 +210,17 @@ export default {
 
     budgetCategoryComponent (budgetCategory) {
       return this.activeBudgetCategory && this.activeBudgetCategory === budgetCategory ? 'create-update-budget-category' : 'budget-category';
+    },
+
+    processDuplicateBudget (budgetId) {
+      if (confirm('Are you sure you want to duplicate this budget? Doing this will overwrite all existing data for this month (transaction data will NOT be erased).')) {
+        this.duplicateBudget({
+          budget: this.selectedBudget,
+          baseBudget: this.getBudgetById(budgetId)
+        }).then((budget) => {
+          this.selectedBudget = budget;
+        });
+      }
     }
   },
 
@@ -196,7 +228,11 @@ export default {
     ...mapGetters([
       'getBudgetById',
       'getCategoryById'
-    ])
+    ]),
+
+    ...mapState({
+      'budgets': state => state.budgets.budgets
+    })
   }
 };
 </script>

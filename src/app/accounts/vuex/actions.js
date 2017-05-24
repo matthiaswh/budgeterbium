@@ -20,11 +20,11 @@ export const deleteAccount = ({ commit }, data) => {
   deleteAccountFromAPI(data);
 };
 
-export const loadAccounts = (store) => {
+export const loadAccounts = ({ state, commit }) => {
   // loads accounts only if they are not already loaded
-  if (!store.accounts || Object.keys(store.accounts).length === 0) {
+  if (!state.accounts || Object.keys(state.accounts).length === 0) {
     return fetchAccounts().then((res) => {
-      store.commit('LOAD_ACCOUNTS', res);
+      commit('LOAD_ACCOUNTS', res);
     });
   }
 };

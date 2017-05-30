@@ -1,4 +1,4 @@
-import Vue from 'Vue';
+import Vue from 'vue';
 
 export default {
   CREATE_TRANSACTION (state, payload) {

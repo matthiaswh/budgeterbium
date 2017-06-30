@@ -54,7 +54,7 @@
 
     <td>
       <p class="control has-icon">
-        <input type="number" step="0.01" class="input" v-model="transaction.amount" />
+        <input type="number" step="0.01" class="input" v-model="debit" />
         <span class="icon">
           <i class="fa fa-usd" aria-hidden="true"></i>
         </span>
@@ -63,7 +63,7 @@
 
     <td>
       <p class="control has-icon">
-        <input type="number" step="0.01" class="input" v-model="transaction.amount" />
+        <input type="number" step="0.01" class="input" v-model="credit" />
         <span class="icon">
           <i class="fa fa-usd" aria-hidden="true"></i>
         </span>
@@ -96,12 +96,15 @@ export default {
   data () {
     return {
       transaction: {},
+      debit: null,
+      credit: null,
       editing: false
     };
   },
 
   mounted () {
     this.loadTransactions();
+    this.loadBudgets();
     this.loadCategories();
     this.loadAccounts();
     this.loadBusinesses();
@@ -113,6 +116,10 @@ export default {
       this.transaction.category = this.getCategoryById(this.transaction.category);
       this.transaction.account = this.getAccountById(this.transaction.account);
       this.transaction.business = this.getBusinessById(this.transaction.business);
+
+      if (this.transaction.amount > 0) this.credit = this.transaction.amount;
+      else this.debit = this.transaction.amount;
+
       this.editing = true;
     }
   },
@@ -122,6 +129,7 @@ export default {
       'loadTransactions',
       'loadCategories',
       'loadAccounts',
+      'loadBudgets',
       'createBusiness',
       'createTransaction',
       'updateTransaction',
@@ -133,11 +141,12 @@ export default {
     processSave () {
       if (this.editing) {
         // TODO: I hate this - have to remember to change it if we change how transaction stores data
-        // surely there is a better way? Just loop through object?
+        // surely there is a better way?
         this.updateTransaction({
           account: this.transaction.account.id,
           amount: this.transaction.amount,
           business: this.transaction.business.id,
+          budget: this.transaction.budget,
           category: this.transaction.category.id,
           date: this.transaction.date,
           note: this.transaction.note,
@@ -183,6 +192,16 @@ export default {
       'getBusinessSelectList',
       'getBusinessById'
     ])
+  },
+
+  watch: {
+    credit: function (val) {
+      this.transaction.amount = Math.abs(val);
+    },
+
+    debit: function (val) {
+      this.transaction.amount = -Math.abs(val);
+    }
   }
 };
 </script>

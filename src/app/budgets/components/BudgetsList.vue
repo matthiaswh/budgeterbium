@@ -34,7 +34,7 @@
           <td><span class="subtitle is-5">${{ budget.budgeted }}</span></td>
           <td><span class="subtitle is-5">${{ budget.spent }}</span></td>
           <td><span class="subtitle is-5">${{ budget.income }}</span></td>
-          <td><span class="subtitle is-5">${{ budget.budgeted - budget.spent}}</span></td>
+          <td><span class="subtitle is-5">${{ budget.budgeted + budget.spent}}</span></td>
           <td>
             <router-link class="button is-primary" :to="{ name: 'updateBudget', params: { budgetId: budget.id } }">Edit</router-link>
           </td>

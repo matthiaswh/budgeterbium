@@ -84,7 +84,7 @@
               >
                 <option
                   v-for="value, key in sortedBudgets"
-                  :value="key"
+                  :value="value.id"
                 >
                   {{ value.month | moment }}
                 </option>
@@ -92,7 +92,7 @@
             </td>
             <td>${{ selectedBudget.budgeted }}</td>
             <td>${{ selectedBudget.spent }}</td>
-            <td>${{ selectedBudget.budgeted - selectedBudget.spent }}</td>
+            <td>${{ selectedBudget.budgeted + selectedBudget.spent }}</td>
             <td></td>
           </tr>
         </tfoot>

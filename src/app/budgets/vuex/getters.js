@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export default {
   getBudgetById: (state, getters) => (budgetId) => {
     return state.budgets && budgetId in state.budgets ? state.budgets[budgetId] : false;
@@ -17,5 +19,21 @@ export default {
         ? state.budgets[budgetId].budgetCategories[budgetCategoryId]
         : false
       : false;
+  },
+
+  getBudgetCategoryByBudgetAndCategory: (state, getters) => (budgetId, categoryId) => {
+    let budget = getters.getBudgetById(budgetId);
+    if (!budget) return false;
+
+    return budget.budgetCategories ? Object.values(budget.budgetCategories).find((o) => { return o.category === categoryId; }) : false;
+  },
+
+  getBudgetByDate: (state, getters) => (date) => {
+    if (!state.budgets) return false;
+
+    let month = moment(date);
+    return Object.values(state.budgets).find((o) => {
+      return month.isSame(o.month, 'month'); // remember this checks month and year are the same https://momentjs.com/docs/#/query/is-same/
+    });
   }
 };

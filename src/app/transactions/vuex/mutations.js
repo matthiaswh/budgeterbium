@@ -1,11 +1,17 @@
 import Vue from 'Vue';
 
+const forceFloats = (o) => {
+  o.amount = parseFloat(o.amount);
+};
+
 export default {
   CREATE_TRANSACTION (state, payload) {
+    forceFloats(payload.transaction);
     Vue.set(state.transactions, payload.transaction.id, payload.transaction);
   },
 
   UPDATE_TRANSACTION (state, payload) {
+    forceFloats(payload.transaction);
     state.transactions[payload.transaction.id] = payload.transaction;
   },
 
@@ -15,6 +21,8 @@ export default {
 
   LOAD_TRANSACTIONS (state, payload) {
     state.transactions = payload;
+
+    Object.values(state.transactions).forEach((o) => { forceFloats(o); });
   },
 
   LOAD_BUSINESSES (state, payload) {

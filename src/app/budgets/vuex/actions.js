@@ -40,7 +40,7 @@ export const updateBudget = ({ commit, state }, data) => {
   saveBudget(data);
 };
 
-export const duplicateBudget = ({ commit, dispatch, getters, state }, data) => {
+export const duplicateBudget = ({ commit, dispatch, getters }, data) => {
   /*
   * Expects an existing budget object, budget, and an budget to be copied, baseBudget
   * Duplicates all budget categories and budgeted amounts to the new budget
@@ -148,6 +148,21 @@ export const updateBudgetCategory = ({ commit, dispatch, getters }, data) => {
   }
 
   commit('UPDATE_BUDGET_CATEGORY', data);
+
+  // save using the budget in our store
+  saveBudget(getters.getBudgetById(data.budget.id));
+};
+
+export const updateBudgetCategorySpent = ({ commit, dispatch, getters }, data) => {
+  // expects data.budget, data.budgetCategory, and data.spent
+  // spent should always be the amount spent on a transaction, not a total amount
+  commit('UPDATE_BUDGET_CATEGORY_BALANCE', { budget: data.budget, value: data.amount, budgetCategory: data.budgetCategory, param: 'spent' });
+
+  dispatch('updateBudgetBalance', {
+    budget: data.budget,
+    param: 'spent',
+    value: data.budget.spent + data.amount
+  });
 
   // save using the budget in our store
   saveBudget(getters.getBudgetById(data.budget.id));
